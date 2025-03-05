@@ -1,16 +1,19 @@
-import pg from 'pg-promise'
-import dotenv from 'dotenv'
-dotenv.config()
+import pgPromise from 'pg-promise';
+import { config } from 'dotenv';
 
-const pgc = pg()
-const str = process.env.CN_STR
+config();
 
-export const db = pgc(str)
+const pgc = pgPromise();
+
+export const db = pgc({
+  connectionString: process.env.DB_URL,
+  ssl: { rejectUnauthorized: false }
+});
 
 db.connect()
-.then(() => {
-console.log("Success Connection")
-})
-.catch((err) => {
-console.log(` Error Connection ${err} `)
-})
+  .then(() => {
+    console.log("Success Connection");
+  })
+  .catch((err) => {
+    console.error(`Error Connection: ${err}`);
+  });
