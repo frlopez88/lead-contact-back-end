@@ -33,7 +33,7 @@ export const getNoCalledLeads = async (req, res)=>{
                 where called = false`
 
     try {
-        const result = db.query(sql)
+        const result = await db.query(sql)
         return res.json(result)
     }catch(error){
         const {message} = error
